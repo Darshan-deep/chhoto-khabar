@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "382596631008",
+    "project_id": "chhotokhabar-27341",
+    "storage_bucket": "chhotokhabar-27341.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:382596631008:android:9c9d51c409b9c42a4f4385",
+        "android_client_info": {
+          "package_name": "com.example.chhoto_khabar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwVSpGpv1VMJ2sSfO-kNjCSuQbm-7s37s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:382596631008:android:295df650b10530b34f4385",
+        "android_client_info": {
+          "package_name": "com.yaks.chhotokhabar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwVSpGpv1VMJ2sSfO-kNjCSuQbm-7s37s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
