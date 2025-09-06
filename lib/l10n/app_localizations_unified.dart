@@ -89,6 +89,16 @@ abstract class AppLocalizations {
   String get errorLoadingNews;
   String get retry;
   String get allCategories;
+  String get newsInNepal;
+  String get latestUpdates;
+  String get searchForNews;
+  String get suggestedCategories;
+  String get trendingSearches;
+  String get searchHistory;
+  String get clearHistory;
+  String get noSearchHistory;
+  String get noResultsFound;
+  String get tryDifferentKeywords;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
@@ -244,6 +254,26 @@ class _AppLocalizationsEn extends AppLocalizations {
   String get retry => 'Retry';
   @override
   String get allCategories => 'All Categories';
+  @override
+  String get newsInNepal => 'News in Nepal';
+  @override
+  String get latestUpdates => 'Latest Updates';
+  @override
+  String get searchForNews => 'Search for news';
+  @override
+  String get suggestedCategories => 'Suggested Categories';
+  @override
+  String get trendingSearches => 'Trending Searches';
+  @override
+  String get searchHistory => 'Search History';
+  @override
+  String get clearHistory => 'Clear History';
+  @override
+  String get noSearchHistory => 'No search history';
+  @override
+  String get noResultsFound => 'No results found';
+  @override
+  String get tryDifferentKeywords => 'Try different keywords';
 }
 
 class _AppLocalizationsNe extends AppLocalizations {
@@ -373,4 +403,24 @@ class _AppLocalizationsNe extends AppLocalizations {
   String get retry => 'पुनः प्रयास गर्नुहोस्';
   @override
   String get allCategories => 'सबै श्रेणीहरू';
+  @override
+  String get newsInNepal => 'नेपालमा समाचार';
+  @override
+  String get latestUpdates => 'पछिल्लो अपडेट';
+  @override
+  String get searchForNews => 'समाचार खोज्नुहोस्';
+  @override
+  String get suggestedCategories => 'सुझावित श्रेणीहरू';
+  @override
+  String get trendingSearches => 'ट्रेंडिङ खोजहरू';
+  @override
+  String get searchHistory => 'खोज इतिहास';
+  @override
+  String get clearHistory => 'इतिहास खाली गर्नुहोस्';
+  @override
+  String get noSearchHistory => 'कुनै खोज इतिहास छैन';
+  @override
+  String get noResultsFound => 'कुनै परिणाम फेला परेन';
+  @override
+  String get tryDifferentKeywords => 'फरक खोजशब्दहरू प्रयास गर्नुहोस्';
 }

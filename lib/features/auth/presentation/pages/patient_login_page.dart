@@ -34,7 +34,7 @@ class _PatientLogInPageState extends State<PatientLogInPage> {
           orElse: () {},
           authenticated: (accessToken, refreshToken) {
             SnackBars.showSuccessSnackBar('Welcome back!');
-            context.go('/news-feed');
+            context.go('/main');
           },
           failure: (exception) {
             SnackBars.showErrorSnackBar(exception.message);
@@ -105,7 +105,7 @@ class _PatientLogInPageState extends State<PatientLogInPage> {
                     width: double.infinity,
                     height: 52,
                     child: OutlinedButton.icon(
-                      onPressed: () => context.go('/news-feed'),
+                      onPressed: () => context.go('/main'),
                       icon: const Icon(Icons.explore_outlined, size: 20),
                       label: const Text('Browse as Guest'),
                       style: OutlinedButton.styleFrom(

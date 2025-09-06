@@ -37,35 +37,41 @@ class NewsCard extends StatelessWidget {
       height: MediaQuery.of(context).size.height,
       child: Stack(
         children: [
+          // Background Image
           Container(
             width: double.infinity,
             height: double.infinity,
             child: Stack(
               children: [
                 _buildImageWithFallback(),
+                // Gradient overlay for better text readability
                 Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.transparent,
+                        Colors.black.withOpacity(0.1),
+                        Colors.black.withOpacity(0.3),
                         Colors.black.withOpacity(0.7),
                       ],
+                      stops: [0.0, 0.6, 1.0],
                     ),
                   ),
                 ),
               ],
             ),
           ),
-          // Article content
+          
+          // Content overlay
           Positioned(
             left: 16,
             right: 80,
-            bottom: 120,
+            bottom: 100,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Category badge
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
@@ -75,25 +81,33 @@ class NewsCard extends StatelessWidget {
                   child: Text(
                     article.categories.isNotEmpty 
                         ? (article.categories.first.name['en'] ?? 'News').toUpperCase()
-                        : 'NEWS',
+                        : 'BUSINESS',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
+                      letterSpacing: 0.5,
                     ),
                   ),
                 ),
                 const SizedBox(height: 16),
+                
+                // Title
                 Text(
                   article.content.title[currentLanguage] ?? article.content.title['en'] ?? 'No title',
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    height: 1.2,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    height: 1.3,
+                    letterSpacing: -0.5,
                   ),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 12),
+                
+                // Description
                 Text(
                   article.content.summary[currentLanguage] ?? 
                   article.content.content[currentLanguage] ?? 
@@ -102,21 +116,39 @@ class NewsCard extends StatelessWidget {
                   'No content',
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 15,
+                    fontSize: 14,
                     height: 1.4,
+                    fontWeight: FontWeight.w400,
                   ),
-                  maxLines: 4,
+                  maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 16),
+                
+                // Author and time
                 Row(
                   children: [
+                    // Author avatar placeholder
+                    Container(
+                      width: 24,
+                      height: 24,
+                      decoration: BoxDecoration(
+                        color: _getCategoryColor(),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.white,
+                        size: 16,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
                     Text(
-                      article.author?.fullName ?? 'Unknown Author',
+                      article.author?.fullName ?? 'Chhoto Khabar',
                       style: const TextStyle(
-                        color: Colors.white70,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -132,10 +164,11 @@ class NewsCard extends StatelessWidget {
               ],
             ),
           ),
-          // TikTok-style vertical actions
+          
+          // Right side actions (TikTok style)
           Positioned(
             right: 16,
-            bottom: 120,
+            bottom: 100,
             child: Column(
               children: [
                 _buildFloatingActionButton(
@@ -155,7 +188,7 @@ class NewsCard extends StatelessWidget {
                 _buildFloatingActionButton(
                   icon: article.isBookmarked ? Icons.bookmark : Icons.bookmark_border,
                   count: '',
-                  color: article.isBookmarked ? Colors.blue : Colors.white,
+                  color: article.isBookmarked ? Colors.amber : Colors.white,
                   onTap: onBookmark,
                 ),
                 const SizedBox(height: 20),
@@ -168,51 +201,60 @@ class NewsCard extends StatelessWidget {
               ],
             ),
           ),
-          // Page indicator
+          
+          // Swipe hints
           Positioned(
-            top: 50,
-            right: 16,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.5),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Text(
-                '${currentIndex + 1}/$totalItems',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ),
-          // Swipe hint
-          Positioned(
-            bottom: 80,
+            bottom: 40,
             left: 16,
-            right: 100,
-            child: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.6),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.swipe_left, color: Colors.white, size: 16),
-                  SizedBox(width: 6),
-                  Text(
-                    'Swipe left to read full article',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                    ),
+            right: 80,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Left swipe hint
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.6),
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                ],
-              ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.swipe_left, color: Colors.white, size: 14),
+                      SizedBox(width: 4),
+                      Text(
+                        'Trending',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // Right swipe hint
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.6),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Read',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                        ),
+                      ),
+                      SizedBox(width: 4),
+                      Icon(Icons.swipe_right, color: Colors.white, size: 14),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ],

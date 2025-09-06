@@ -1,24 +1,17 @@
-import 'package:chhoto_khabar/core/config/onboarding/presentation/screens/splash_screen.dart';
 import 'package:chhoto_khabar/features/auth/presentation/pages/onboarding_page.dart';
-import 'package:chhoto_khabar/features/auth/presentation/pages/patient_forgot_password_page.dart';
 import 'package:chhoto_khabar/features/auth/presentation/pages/patient_login_page.dart';
-import 'package:chhoto_khabar/features/auth/presentation/pages/patient_new_password.dart';
-import 'package:chhoto_khabar/features/auth/presentation/pages/patient_otp_page.dart';
-import 'package:chhoto_khabar/features/auth/presentation/pages/patient_register_page.dart';
 import 'package:chhoto_khabar/features/auth/presentation/pages/splashscreen.dart';
 import 'package:chhoto_khabar/features/bookmark/presentation/bloc/bookmark_bloc.dart';
 import 'package:chhoto_khabar/features/bookmark/presentation/pages/bookmark_page.dart';
-import 'package:chhoto_khabar/features/news_feed/presentation/pages/news_feed_page_new.dart';
+import 'package:chhoto_khabar/features/categories/presentation/bloc/category_bloc.dart';
+import 'package:chhoto_khabar/features/main/presentation/pages/main_page.dart';
 import 'package:chhoto_khabar/features/news_feed/presentation/bloc/news_bloc.dart';
 import 'package:chhoto_khabar/features/trending/presentation/bloc/trending_bloc.dart';
-import 'package:chhoto_khabar/features/trending/presentation/pages/trending_page.dart';
 import 'package:chhoto_khabar/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:chhoto_khabar/core/config/dependency_injection/di_config.dart';
-import 'package:chhoto_khabar/features/profile/presentation/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:chhoto_khabar/core/config/navigation/teacher_scaffold_with_navbar.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -55,12 +48,29 @@ CustomTransitionPage<void> buildPageWithDefaultTransition<T>({
 
 final GoRouter appRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: '/news-feed',
+  initialLocation: '/main',
+  errorBuilder: (context, state) => Scaffold(
+    body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.error_outline, size: 64, color: Colors.red),
+          const SizedBox(height: 16),
+          Text('Route not found: ${state.uri}'),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () => context.go('/main'),
+            child: const Text('Go to Home'),
+          ),
+        ],
+      ),
+    ),
+  ),
   routes: <RouteBase>[
-    // Splash/Onboarding Routes
+    // Root redirect to onboarding
     GoRoute(
       path: '/',
-      builder: (context, state) => OnboardingPage(),
+      redirect: (context, state) => '/onboarding',
     ),
     GoRoute(
       path: '/splash-onboard',
@@ -91,6 +101,16 @@ final GoRouter appRouter = GoRouter(
         ),
       ),
     ),
+    // Redirect register to login for now since register page is commented out
+    GoRoute(
+      path: '/register',
+      redirect: (context, state) => '/login',
+    ),
+    // Redirect patient-home to main
+    GoRoute(
+      path: '/patient-home',
+      redirect: (context, state) => '/main',
+    ),
     GoRoute(
       path: '/bookmarks',
       pageBuilder: (context, state) => buildPageWithDefaultTransition(
@@ -103,103 +123,17 @@ final GoRouter appRouter = GoRouter(
       ),
     ),
 
-    // GoRoute(
-    //   path: '/register',
-    //   pageBuilder: (context, state) => buildPageWithDefaultTransition(
-    //     context: context,
-    //     state: state,
-    //     child: BlocProvider(
-    //       create: (context) => sl<AuthBloc>(),
-    //       child: PatientRegisterPage(),
-    //     ),
-    //   ),
-    // ),
-
-    // GoRoute(
-    //   path: '/forgot-password',
-    //   pageBuilder: (context, state) => buildPageWithDefaultTransition(
-    //     context: context,
-    //     state: state,
-    //     child: BlocProvider(
-    //       create: (context) => sl<AuthBloc>(),
-    //       child: PatientForgotPasswordPage(),
-    //     ),
-    //   ),
-    // ),
-
-    // GoRoute(
-    //   path: '/otp',
-    //   pageBuilder: (context, state) {
-    //     final extras = state.extra as Map<String, String>? ?? {};
-    //     return buildPageWithDefaultTransition(
-    //       context: context,
-    //       state: state,
-    //       child: BlocProvider(
-    //         create: (context) => sl<AuthBloc>(),
-    //         child: PatientOtpScreen(
-    //           nextRoute: extras['nextRoute'] ?? '',
-    //         ),
-    //       ),
-    //     );
-    //   },
-    // ),
-
-    // GoRoute(
-    //   path: '/new-password',
-    //   pageBuilder: (context, state) {
-    //     final extra = state.extra as Map<String, dynamic>?;
-    //     return buildPageWithDefaultTransition(
-    //       context: context,
-    //       state: state,
-    //       child: BlocProvider(
-    //         create: (context) => sl<AuthBloc>(),
-    //         child: PatientNewPasswordPage(
-    //           phone: extra?['phone'] as String? ?? '',
-    //         ),
-    //       ),
-    //     );
-    //   },
-    // ),
-
-    // Main App Navigation
-    StatefulShellRoute.indexedStack(
-      builder: (context, state, navigationShell) =>
-          StudentScaffoldWithNavBar(studentNavigationShell: navigationShell),
-      branches: <StatefulShellBranch>[
-        StatefulShellBranch(
-          initialLocation: '/news-feed',
-          routes: [
-            GoRoute(
-              path: '/news-feed',
-              builder: (context, state) => BlocProvider(
-                create: (context) => sl<NewsBloc>(),
-                child: NewsFeedPage(),
-              ),
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: '/trending',
-              builder: (context, state) => BlocProvider(
-                create: (context) => sl<TrendingBloc>(),
-                child: TrendingPage(),
-              ),
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: '/profile',
-              builder: (context, state) {
-                return ProfileScreen();
-              },
-            ),
-          ],
-        ),
-      ],
+    // Main App - Single Route with Swipe Navigation
+    GoRoute(
+      path: '/main',
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => sl<NewsBloc>()),
+          BlocProvider(create: (context) => sl<TrendingBloc>()),
+          BlocProvider(create: (context) => sl<CategoryBloc>()),
+        ],
+        child: MainPage(),
+      ),
     ),
   ],
 );
