@@ -4,6 +4,7 @@ import 'package:chhoto_khabar/features/categories/domain/entities/category.dart'
 import 'package:chhoto_khabar/features/categories/presentation/bloc/category_bloc.dart';
 import 'package:chhoto_khabar/features/categories/presentation/widgets/category_chip.dart';
 import 'package:chhoto_khabar/core/config/dependency_injection/di_config.dart';
+import 'package:chhoto_khabar/core/widgets/news_shimmer_effects.dart';
 
 class CategoryFilterWidget extends StatelessWidget {
   final Function(Category?) onCategorySelected;
@@ -26,16 +27,13 @@ class CategoryFilterWidget extends StatelessWidget {
         child: BlocBuilder<CategoryBloc, CategoryState>(
           builder: (context, state) {
             return state.when(
-              initial: () => const SizedBox.shrink(),
-              loading: () => const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  ),
-                ),
+              initial: () => NewsShimmerEffects.buildCategoryList(
+                itemCount: 6,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+              ),
+              loading: () => NewsShimmerEffects.buildCategoryList(
+                itemCount: 6,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
               ),
               loaded: (categories, selectedCategory) => ListView.builder(
                 scrollDirection: Axis.horizontal,

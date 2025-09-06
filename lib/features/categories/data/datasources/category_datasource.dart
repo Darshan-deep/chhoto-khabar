@@ -1,3 +1,4 @@
+import 'package:chhoto_khabar/core/config/api/api_configs.dart';
 import 'package:chhoto_khabar/features/categories/data/models/category_model.dart';
 import 'package:chhoto_khabar/shared/data/remote/network_service.dart';
 import 'package:chhoto_khabar/shared/exceptions/http_exception.dart';
@@ -17,7 +18,7 @@ class CategoryDatasourceImpl implements CategoryDatasource {
   @override
   Future<Either<AppException, CategoryResponseModel>> getCategories() async {
     try {
-      final response = await networkService.get('/categories/');
+      final response = await networkService.get(ApiConfigs.categories);
 
       return response.fold(
         (exception) => Left(exception),

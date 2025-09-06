@@ -23,6 +23,7 @@ class NewsShimmerEffects {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 // Title lines
                 Shimmer(
@@ -42,9 +43,8 @@ class NewsShimmerEffects {
                   width: 150,
                   height: 14,
                   borderRadius: 4,
-                  margin: const EdgeInsets.only(bottom: 8),
+                  margin: const EdgeInsets.only(bottom: 16),
                 ),
-                const Spacer(),
                 // Date and source
                 Row(
                   children: [
@@ -295,15 +295,24 @@ class NewsShimmerEffects {
   static Widget buildCategoryList({
     int itemCount = 8,
     EdgeInsetsGeometry? padding,
+    bool isConstrained = false,
   }) {
+    final listView = ListView.builder(
+      scrollDirection: Axis.horizontal,
+      padding: padding ?? const EdgeInsets.symmetric(horizontal: 16),
+      itemCount: itemCount,
+      itemBuilder: (context, index) => categoryChip(),
+    );
+
+    // If already constrained (inside a SizedBox), return ListView directly
+    if (isConstrained) {
+      return listView;
+    }
+
+    // Otherwise, wrap in SizedBox
     return SizedBox(
       height: 40,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        padding: padding ?? const EdgeInsets.symmetric(horizontal: 16),
-        itemCount: itemCount,
-        itemBuilder: (context, index) => categoryChip(),
-      ),
+      child: listView,
     );
   }
 

@@ -354,8 +354,10 @@ class _NewsFeedPageState extends State<NewsFeedPage> {
   @override
   void initState() {
     super.initState();
-    // Load initial news
-    context.read<NewsBloc>().add(const NewsEvent.loadNews());
+    // Load initial news with current language
+    final currentLanguage = context.read<LanguageBloc>().state.selectedLanguage;
+    final languageCode = LanguageHelper.getApiLanguageCode(currentLanguage);
+    context.read<NewsBloc>().add(NewsEvent.loadNews(language: languageCode));
   }
 
   void _onCategorySelected(Category? category) {

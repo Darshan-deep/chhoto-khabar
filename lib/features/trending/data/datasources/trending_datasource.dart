@@ -1,3 +1,4 @@
+import 'package:chhoto_khabar/core/config/api/api_configs.dart';
 import 'package:chhoto_khabar/features/news_feed/data/models/article_model.dart';
 import 'package:chhoto_khabar/shared/data/remote/network_service.dart';
 import 'package:chhoto_khabar/shared/exceptions/http_exception.dart';
@@ -43,7 +44,7 @@ class TrendingDatasourceImpl implements TrendingDatasource {
       if (size != null) queryParameters['size'] = size;
 
       final response = await networkService.get(
-        '/articles/trending/',
+        ApiConfigs.trending,
         queryParameters: queryParameters,
       );
 

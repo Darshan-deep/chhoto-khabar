@@ -20,6 +20,8 @@ class ApiConfigs {
 
   static const String articles = '/articles/';
   static const String bookmarks = '/bookmarks/';
+  static const String categories = '/categories/';
+  static const String trending = '/articles/trending/';
 
   static const String getSpecializations = "/specialization/list-search";
   static const String addFavoriteDoctor = "/wishlist/create/";

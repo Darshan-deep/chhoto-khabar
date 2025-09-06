@@ -197,7 +197,7 @@ class _TrendingPageNewState extends State<TrendingPageNew> {
                 LanguageHelper.getApiLanguageCode(state.selectedLanguage);
             context
                 .read<TrendingBloc>()
-                .add(TrendingEvent.refreshTrending(language: languageCode));
+                .add(TrendingEvent.loadTrending(language: languageCode));
           },
         ),
       ],
