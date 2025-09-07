@@ -18,12 +18,30 @@ class TokenInterceptor extends QueuedInterceptorsWrapper {
   static bool _isRefreshing = false;
   static bool _isHandlingSessionExpiration = false;
 
+  // Define public endpoints that don't require authentication
+  static const List<String> publicEndpoints = [
+    '/categories/',
+    '/articles/',
+    '/articles/trending/',
+    '/department/list-search/',
+    '/department/online-list-search/',
+    '/termsandcondition/list/create/',
+    // Add other public endpoints here as needed
+  ];
+
   TokenInterceptor(this.dio, this.tokenStorageService, this.userRepository);
 
   @override
   Future<void> onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
     try {
+      // Check if this is a public endpoint that doesn't require authentication
+      if (_isPublicEndpoint(options.path)) {
+        debugPrint('🌐 Public endpoint accessed: ${options.path}');
+        handler.next(options);
+        return;
+      }
+
       final accessToken = await userRepository.getAccessToken();
 
       if (accessToken == null) {
@@ -265,17 +283,41 @@ class TokenInterceptor extends QueuedInterceptorsWrapper {
     }
   }
 
+  bool _isPublicEndpoint(String path) {
+    debugPrint('🔍 Checking if endpoint is public: $path');
+    final isPublic = publicEndpoints.any((endpoint) {
+      // Exact match or starts with the endpoint pattern
+      if (path == endpoint || path.startsWith('$endpoint/')) {
+        return true;
+      }
+      
+      // Handle query parameters
+      if (path.contains('?')) {
+        final pathWithoutQuery = path.split('?')[0];
+        return pathWithoutQuery == endpoint || pathWithoutQuery.startsWith('$endpoint/');
+      }
+      
+      return false;
+    });
+    
+    debugPrint('🔍 Path $path is ${isPublic ? 'PUBLIC' : 'PRIVATE'}');
+    return isPublic;
+  }
+
   void _handleNoToken(RequestOptions options, RequestInterceptorHandler handler) {
     debugPrint('⚠️ No access token available for: ${options.path}');
 
-    Future.delayed(const Duration(milliseconds: 100), () {
-      appRouter.go('/login');
-    });
-
+    // Instead of redirecting to login, return a 401 error that UI can handle with dialog
     handler.reject(DioException(
       requestOptions: options,
-      type: DioExceptionType.unknown,
-      error: 'No access token available',
+      type: DioExceptionType.badResponse,
+      response: Response(
+        requestOptions: options,
+        statusCode: 401,
+        statusMessage: 'Authentication required',
+        data: {'message': 'Please login to perform this action'},
+      ),
+      error: 'Authentication required',
     ));
   }
 

@@ -13,6 +13,7 @@ import 'package:chhoto_khabar/shared/user/bloc/user_bloc.dart';
 import 'package:chhoto_khabar/shared/language/presentation/language_bloc/language_bloc.dart';
 import 'package:chhoto_khabar/core/config/dependency_injection/di_config.dart';
 import 'package:chhoto_khabar/shared/language/utils/language_helper.dart';
+import 'package:chhoto_khabar/shared/utils/auth_error_handler.dart';
 import 'package:chhoto_khabar/features/main/presentation/widgets/main_header.dart';
 import 'package:chhoto_khabar/features/main/presentation/widgets/info_overlay.dart';
 import 'package:chhoto_khabar/features/main/presentation/widgets/news_feed_page.dart';
@@ -42,6 +43,21 @@ class _MainPageState extends State<MainPage> {
     // Trigger language fetch first, then load data will be triggered by BlocListener
     context.read<LanguageBloc>().add(const FetchedSelectedLanguage());
     context.read<CategoryBloc>().add(const CategoryEvent.loadCategories());
+    
+    // Load initial articles without category filter
+    final currentLanguage = context.read<LanguageBloc>().state.selectedLanguage;
+    final languageCode = LanguageHelper.getApiLanguageCode(currentLanguage);
+    
+    context.read<NewsBloc>().add(NewsEvent.loadNews(
+      page: 1,
+      language: languageCode,
+    ));
+    
+    // Also load trending articles
+    context.read<TrendingBloc>().add(TrendingEvent.loadTrending(
+      page: 1,
+      language: languageCode,
+    ));
   }
 
   void _onCategorySelected(Category? category) {
@@ -170,18 +186,44 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<LanguageBloc, LanguageState>(
-      listener: (context, state) {
-        // Load all data when language is loaded or changed
-        final languageCode = LanguageHelper.getApiLanguageCode(state.selectedLanguage);
-        context.read<NewsBloc>().add(NewsEvent.loadNews(
-          language: languageCode,
-          categorySlug: _selectedCategory?.slug,
-        ));
-        context.read<TrendingBloc>().add(TrendingEvent.loadTrending(
-          language: languageCode,
-        ));
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<LanguageBloc, LanguageState>(
+          listener: (context, state) {
+            // Load all data when language is loaded or changed
+            final languageCode = LanguageHelper.getApiLanguageCode(state.selectedLanguage);
+            context.read<NewsBloc>().add(NewsEvent.loadNews(
+              language: languageCode,
+              categorySlug: _selectedCategory?.slug,
+            ));
+            context.read<TrendingBloc>().add(TrendingEvent.loadTrending(
+              language: languageCode,
+            ));
+          },
+        ),
+        BlocListener<NewsBloc, NewsState>(
+          listener: (context, state) {
+            state.whenOrNull(
+              error: (message) {
+                if (AuthErrorHelper.isAuthError(message)) {
+                  AuthErrorHelper.showAuthDialog(context, 'interact with articles');
+                }
+              },
+            );
+          },
+        ),
+        BlocListener<TrendingBloc, TrendingState>(
+          listener: (context, state) {
+            state.whenOrNull(
+              error: (message) {
+                if (AuthErrorHelper.isAuthError(message)) {
+                  AuthErrorHelper.showAuthDialog(context, 'interact with articles');
+                }
+              },
+            );
+          },
+        ),
+      ],
       child: Scaffold(
         backgroundColor: const Color(0xFFE5F2F3),
         body: Stack(

@@ -11,6 +11,7 @@ import 'package:chhoto_khabar/features/profile/presentation/blocs/profile_bloc/p
 import 'package:chhoto_khabar/features/profile/presentation/blocs/profile_bloc/profile_event.dart';
 import 'package:chhoto_khabar/shared/language/presentation/language_bloc/language_bloc.dart';
 import 'package:chhoto_khabar/shared/language/domain/model/language_model.dart';
+import 'package:chhoto_khabar/core/theme/cubit/theme_cubit.dart' as theme_cubit;
 
 class ProfilePageNew extends StatefulWidget {
   const ProfilePageNew({super.key});
@@ -690,11 +691,7 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
             onTap: () {},
           ),
           _buildLanguageSettingsItem(),
-          _buildSettingsItem(
-            icon: Icons.dark_mode_outlined,
-            title: 'Theme',
-            onTap: () {},
-          ),
+          _buildThemeSettingsItem(),
           _buildSettingsItem(
             icon: Icons.privacy_tip_outlined,
             title: 'Privacy Policy',
@@ -717,6 +714,72 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildThemeSettingsItem() {
+    return BlocBuilder<theme_cubit.ThemeCubit, theme_cubit.ThemeState>(
+      builder: (context, themeState) {
+        bool isDarkMode = false;
+        if (themeState is theme_cubit.Loaded) {
+          isDarkMode = themeState.themeMode == ThemeMode.dark;
+        }
+        
+        return Container(
+          margin: const EdgeInsets.only(bottom: 8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: ListTile(
+            leading: Icon(
+              isDarkMode ? Icons.dark_mode : Icons.light_mode,
+              color: Colors.black87,
+            ),
+            title: Text(
+              'Theme',
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Colors.black87,
+              ),
+            ),
+            subtitle: Text(
+              isDarkMode ? 'Dark Mode' : 'Light Mode',
+              style: GoogleFonts.poppins(
+                fontSize: 14,
+                color: Colors.grey[600],
+              ),
+            ),
+            trailing: Switch(
+              value: isDarkMode,
+              onChanged: (value) {
+                context.read<theme_cubit.ThemeCubit>().toggleTheme();
+                
+                // Show snackbar to indicate theme change
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      value 
+                        ? 'Switched to Dark Mode'
+                        : 'Switched to Light Mode',
+                    ),
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
+              },
+              activeColor: const Color(0xFF4A9B8C),
+            ),
+          ),
+        );
+      },
     );
   }
 
