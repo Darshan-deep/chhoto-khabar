@@ -9,5 +9,9 @@ class CommentsEvent with _$CommentsEvent {
     required String content,
     String? parentId,
   }) = PostComment;
+  const factory CommentsEvent.editComment({
+    required String commentId,
+    required String content,
+  }) = EditComment;
   const factory CommentsEvent.refreshComments(String articleId) = RefreshComments;
 }

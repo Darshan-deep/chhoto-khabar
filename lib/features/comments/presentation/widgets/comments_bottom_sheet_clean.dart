@@ -27,7 +27,6 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
   CommentEntity? _replyingTo;
   late CommentsBloc _commentsBloc;
   String? _currentUserId;
-  bool _isPostingComment = false;
 
   @override
   void initState() {
@@ -81,11 +80,7 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
 
   void _postComment() {
     final content = _commentController.text.trim();
-    if (content.isNotEmpty && !_isPostingComment) {
-      setState(() {
-        _isPostingComment = true;
-      });
-      
+    if (content.isNotEmpty) {
       _commentsBloc.add(
         CommentsEvent.postComment(
           articleId: widget.articleId,
@@ -157,21 +152,12 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
                 listener: (context, state) {
                   state.maybeWhen(
                     error: (message) {
-                      setState(() {
-                        _isPostingComment = false;
-                      });
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('Error: $message'),
                           backgroundColor: Colors.red,
                         ),
                       );
-                    },
-                    loaded: (comments, hasMore, currentPage) {
-                      // Reset posting state when comments are loaded
-                      setState(() {
-                        _isPostingComment = false;
-                      });
                     },
                     orElse: () {},
                   );
@@ -231,7 +217,9 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
                           ],
                         ),
                       ),
-                      posting: () => const SizedBox.shrink(), // Don't show progress here
+                      posting: () => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
                       posted: (comment) => const SizedBox.shrink(),
                       editing: () => const Center(
                         child: CircularProgressIndicator(),
@@ -319,20 +307,28 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
                         ),
                       ),
                       const SizedBox(width: 8),
-                      // Send button with local loading state
-                      IconButton(
-                        onPressed: _isPostingComment ? null : _postComment,
-                        icon: _isPostingComment
-                            ? const SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(strokeWidth: 2),
-                              )
-                            : const Icon(Icons.send),
-                        style: IconButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          foregroundColor: Colors.white,
-                        ),
+                      BlocBuilder<CommentsBloc, CommentsState>(
+                        builder: (context, state) {
+                          final isPosting = state.maybeWhen(
+                            posting: () => true,
+                            orElse: () => false,
+                          );
+                          
+                          return IconButton(
+                            onPressed: isPosting ? null : _postComment,
+                            icon: isPosting
+                                ? const SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(strokeWidth: 2),
+                                  )
+                                : const Icon(Icons.send),
+                            style: IconButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              foregroundColor: Colors.white,
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -373,6 +369,7 @@ class _NestedCommentWidgetState extends State<NestedCommentWidget> {
   bool _isExpanded = false;
   bool _isLoadingReplies = false;
   List<CommentEntity> _replies = [];
+  bool _hasMore = true;
   int _currentPage = 1;
 
   Future<void> _loadReplies({bool refresh = false}) async {
@@ -383,6 +380,7 @@ class _NestedCommentWidgetState extends State<NestedCommentWidget> {
       if (refresh) {
         _replies.clear();
         _currentPage = 1;
+        _hasMore = true;
       }
     });
 
@@ -401,6 +399,7 @@ class _NestedCommentWidgetState extends State<NestedCommentWidget> {
             } else {
               _replies.addAll(response.results);
             }
+            _hasMore = response.next != null;
             _currentPage++;
             _isExpanded = true;
           });

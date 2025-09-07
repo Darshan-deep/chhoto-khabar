@@ -33,6 +33,8 @@ import 'package:chhoto_khabar/features/comments/data/repositories/comments_repos
 import 'package:chhoto_khabar/features/comments/domain/repositories/comments_repository.dart';
 import 'package:chhoto_khabar/features/comments/domain/usecases/get_comments_usecase.dart';
 import 'package:chhoto_khabar/features/comments/domain/usecases/post_comment_usecase.dart';
+import 'package:chhoto_khabar/features/comments/domain/usecases/edit_comment_usecase.dart';
+import 'package:chhoto_khabar/features/comments/domain/usecases/get_comment_replies_usecase.dart';
 import 'package:chhoto_khabar/features/comments/presentation/bloc/comments_bloc.dart';
 
 import 'package:chhoto_khabar/features/categories/data/datasources/category_datasource.dart';
@@ -326,6 +328,8 @@ Future<void> setUpServiceLocator() async {
   // ✅ COMMENTS USE CASES
   sl.registerLazySingleton(() => GetCommentsUseCase(sl<CommentsRepository>()));
   sl.registerLazySingleton(() => PostCommentUseCase(sl<CommentsRepository>()));
+  sl.registerLazySingleton(() => EditCommentUseCase(sl<CommentsRepository>()));
+  sl.registerLazySingleton(() => GetCommentRepliesUseCase(sl<CommentsRepository>()));
 
   // ✅ CATEGORY USE CASES
   sl.registerLazySingleton(() => GetCategoriesUseCase(sl<CategoryRepository>()));
@@ -388,6 +392,7 @@ Future<void> setUpServiceLocator() async {
   sl.registerFactory(() => CommentsBloc(
         sl<GetCommentsUseCase>(),
         sl<PostCommentUseCase>(),
+        sl<EditCommentUseCase>(),
       ));
 
   // ✅ CATEGORY BLOC

@@ -12,4 +12,6 @@ class CommentsState with _$CommentsState {
   const factory CommentsState.error(String message) = _Error;
   const factory CommentsState.posting() = _Posting;
   const factory CommentsState.posted(CommentEntity comment) = _Posted;
+  const factory CommentsState.editing() = _Editing;
+  const factory CommentsState.edited(CommentEntity comment) = _Edited;
 }

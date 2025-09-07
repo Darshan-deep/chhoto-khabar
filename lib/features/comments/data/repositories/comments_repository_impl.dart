@@ -24,6 +24,20 @@ class CommentsRepositoryImpl implements CommentsRepository {
   }
 
   @override
+  Future<Either<AppException, CommentsResponse>> getCommentReplies(String parentId, {int page = 1}) async {
+    try {
+      final response = await _remoteDataSource.getCommentReplies(parentId, page: page);
+      return Right(response);
+    } catch (e) {
+      return Left(AppException(
+        message: 'Failed to fetch replies: $e',
+        statusCode: 500,
+        identifier: 'REPLIES_FETCH_ERROR',
+      ));
+    }
+  }
+
+  @override
   Future<Either<AppException, CommentEntity>> postComment({
     required String articleId,
     required String content,
@@ -35,12 +49,33 @@ class CommentsRepositoryImpl implements CommentsRepository {
         content: content,
         parentId: parentId,
       );
-      return Right(response);
+      // CommentModel extends CommentEntity, so we can return it directly
+      return Right(response as CommentEntity);
     } catch (e) {
       return Left(AppException(
         message: 'Failed to post comment: $e',
         statusCode: 500,
         identifier: 'COMMENT_POST_ERROR',
+      ));
+    }
+  }
+
+  @override
+  Future<Either<AppException, CommentEntity>> editComment({
+    required String commentId,
+    required String content,
+  }) async {
+    try {
+      final response = await _remoteDataSource.editComment(
+        commentId: commentId,
+        content: content,
+      );
+      return Right(response);
+    } catch (e) {
+      return Left(AppException(
+        message: 'Failed to edit comment: $e',
+        statusCode: 500,
+        identifier: 'COMMENT_EDIT_ERROR',
       ));
     }
   }

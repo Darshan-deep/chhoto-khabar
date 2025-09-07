@@ -16,7 +16,6 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CommentsEvent {
-  String get articleId => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String articleId) loadComments,
@@ -24,6 +23,7 @@ mixin _$CommentsEvent {
     required TResult Function(
             String articleId, String content, String? parentId)
         postComment,
+    required TResult Function(String commentId, String content) editComment,
     required TResult Function(String articleId) refreshComments,
   }) =>
       throw _privateConstructorUsedError;
@@ -33,6 +33,7 @@ mixin _$CommentsEvent {
     TResult? Function(String articleId)? loadMoreComments,
     TResult? Function(String articleId, String content, String? parentId)?
         postComment,
+    TResult? Function(String commentId, String content)? editComment,
     TResult? Function(String articleId)? refreshComments,
   }) =>
       throw _privateConstructorUsedError;
@@ -42,6 +43,7 @@ mixin _$CommentsEvent {
     TResult Function(String articleId)? loadMoreComments,
     TResult Function(String articleId, String content, String? parentId)?
         postComment,
+    TResult Function(String commentId, String content)? editComment,
     TResult Function(String articleId)? refreshComments,
     required TResult orElse(),
   }) =>
@@ -51,6 +53,7 @@ mixin _$CommentsEvent {
     required TResult Function(LoadComments value) loadComments,
     required TResult Function(LoadMoreComments value) loadMoreComments,
     required TResult Function(PostComment value) postComment,
+    required TResult Function(EditComment value) editComment,
     required TResult Function(RefreshComments value) refreshComments,
   }) =>
       throw _privateConstructorUsedError;
@@ -59,6 +62,7 @@ mixin _$CommentsEvent {
     TResult? Function(LoadComments value)? loadComments,
     TResult? Function(LoadMoreComments value)? loadMoreComments,
     TResult? Function(PostComment value)? postComment,
+    TResult? Function(EditComment value)? editComment,
     TResult? Function(RefreshComments value)? refreshComments,
   }) =>
       throw _privateConstructorUsedError;
@@ -67,15 +71,10 @@ mixin _$CommentsEvent {
     TResult Function(LoadComments value)? loadComments,
     TResult Function(LoadMoreComments value)? loadMoreComments,
     TResult Function(PostComment value)? postComment,
+    TResult Function(EditComment value)? editComment,
     TResult Function(RefreshComments value)? refreshComments,
     required TResult orElse(),
   }) =>
-      throw _privateConstructorUsedError;
-
-  /// Create a copy of CommentsEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $CommentsEventCopyWith<CommentsEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -84,8 +83,6 @@ abstract class $CommentsEventCopyWith<$Res> {
   factory $CommentsEventCopyWith(
           CommentsEvent value, $Res Function(CommentsEvent) then) =
       _$CommentsEventCopyWithImpl<$Res, CommentsEvent>;
-  @useResult
-  $Res call({String articleId});
 }
 
 /// @nodoc
@@ -100,27 +97,13 @@ class _$CommentsEventCopyWithImpl<$Res, $Val extends CommentsEvent>
 
   /// Create a copy of CommentsEvent
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? articleId = null,
-  }) {
-    return _then(_value.copyWith(
-      articleId: null == articleId
-          ? _value.articleId
-          : articleId // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
 }
 
 /// @nodoc
-abstract class _$$LoadCommentsImplCopyWith<$Res>
-    implements $CommentsEventCopyWith<$Res> {
+abstract class _$$LoadCommentsImplCopyWith<$Res> {
   factory _$$LoadCommentsImplCopyWith(
           _$LoadCommentsImpl value, $Res Function(_$LoadCommentsImpl) then) =
       __$$LoadCommentsImplCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({String articleId});
 }
@@ -190,6 +173,7 @@ class _$LoadCommentsImpl implements LoadComments {
     required TResult Function(
             String articleId, String content, String? parentId)
         postComment,
+    required TResult Function(String commentId, String content) editComment,
     required TResult Function(String articleId) refreshComments,
   }) {
     return loadComments(articleId);
@@ -202,6 +186,7 @@ class _$LoadCommentsImpl implements LoadComments {
     TResult? Function(String articleId)? loadMoreComments,
     TResult? Function(String articleId, String content, String? parentId)?
         postComment,
+    TResult? Function(String commentId, String content)? editComment,
     TResult? Function(String articleId)? refreshComments,
   }) {
     return loadComments?.call(articleId);
@@ -214,6 +199,7 @@ class _$LoadCommentsImpl implements LoadComments {
     TResult Function(String articleId)? loadMoreComments,
     TResult Function(String articleId, String content, String? parentId)?
         postComment,
+    TResult Function(String commentId, String content)? editComment,
     TResult Function(String articleId)? refreshComments,
     required TResult orElse(),
   }) {
@@ -229,6 +215,7 @@ class _$LoadCommentsImpl implements LoadComments {
     required TResult Function(LoadComments value) loadComments,
     required TResult Function(LoadMoreComments value) loadMoreComments,
     required TResult Function(PostComment value) postComment,
+    required TResult Function(EditComment value) editComment,
     required TResult Function(RefreshComments value) refreshComments,
   }) {
     return loadComments(this);
@@ -240,6 +227,7 @@ class _$LoadCommentsImpl implements LoadComments {
     TResult? Function(LoadComments value)? loadComments,
     TResult? Function(LoadMoreComments value)? loadMoreComments,
     TResult? Function(PostComment value)? postComment,
+    TResult? Function(EditComment value)? editComment,
     TResult? Function(RefreshComments value)? refreshComments,
   }) {
     return loadComments?.call(this);
@@ -251,6 +239,7 @@ class _$LoadCommentsImpl implements LoadComments {
     TResult Function(LoadComments value)? loadComments,
     TResult Function(LoadMoreComments value)? loadMoreComments,
     TResult Function(PostComment value)? postComment,
+    TResult Function(EditComment value)? editComment,
     TResult Function(RefreshComments value)? refreshComments,
     required TResult orElse(),
   }) {
@@ -264,24 +253,20 @@ class _$LoadCommentsImpl implements LoadComments {
 abstract class LoadComments implements CommentsEvent {
   const factory LoadComments(final String articleId) = _$LoadCommentsImpl;
 
-  @override
   String get articleId;
 
   /// Create a copy of CommentsEvent
   /// with the given fields replaced by the non-null parameter values.
-  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LoadCommentsImplCopyWith<_$LoadCommentsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$LoadMoreCommentsImplCopyWith<$Res>
-    implements $CommentsEventCopyWith<$Res> {
+abstract class _$$LoadMoreCommentsImplCopyWith<$Res> {
   factory _$$LoadMoreCommentsImplCopyWith(_$LoadMoreCommentsImpl value,
           $Res Function(_$LoadMoreCommentsImpl) then) =
       __$$LoadMoreCommentsImplCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({String articleId});
 }
@@ -352,6 +337,7 @@ class _$LoadMoreCommentsImpl implements LoadMoreComments {
     required TResult Function(
             String articleId, String content, String? parentId)
         postComment,
+    required TResult Function(String commentId, String content) editComment,
     required TResult Function(String articleId) refreshComments,
   }) {
     return loadMoreComments(articleId);
@@ -364,6 +350,7 @@ class _$LoadMoreCommentsImpl implements LoadMoreComments {
     TResult? Function(String articleId)? loadMoreComments,
     TResult? Function(String articleId, String content, String? parentId)?
         postComment,
+    TResult? Function(String commentId, String content)? editComment,
     TResult? Function(String articleId)? refreshComments,
   }) {
     return loadMoreComments?.call(articleId);
@@ -376,6 +363,7 @@ class _$LoadMoreCommentsImpl implements LoadMoreComments {
     TResult Function(String articleId)? loadMoreComments,
     TResult Function(String articleId, String content, String? parentId)?
         postComment,
+    TResult Function(String commentId, String content)? editComment,
     TResult Function(String articleId)? refreshComments,
     required TResult orElse(),
   }) {
@@ -391,6 +379,7 @@ class _$LoadMoreCommentsImpl implements LoadMoreComments {
     required TResult Function(LoadComments value) loadComments,
     required TResult Function(LoadMoreComments value) loadMoreComments,
     required TResult Function(PostComment value) postComment,
+    required TResult Function(EditComment value) editComment,
     required TResult Function(RefreshComments value) refreshComments,
   }) {
     return loadMoreComments(this);
@@ -402,6 +391,7 @@ class _$LoadMoreCommentsImpl implements LoadMoreComments {
     TResult? Function(LoadComments value)? loadComments,
     TResult? Function(LoadMoreComments value)? loadMoreComments,
     TResult? Function(PostComment value)? postComment,
+    TResult? Function(EditComment value)? editComment,
     TResult? Function(RefreshComments value)? refreshComments,
   }) {
     return loadMoreComments?.call(this);
@@ -413,6 +403,7 @@ class _$LoadMoreCommentsImpl implements LoadMoreComments {
     TResult Function(LoadComments value)? loadComments,
     TResult Function(LoadMoreComments value)? loadMoreComments,
     TResult Function(PostComment value)? postComment,
+    TResult Function(EditComment value)? editComment,
     TResult Function(RefreshComments value)? refreshComments,
     required TResult orElse(),
   }) {
@@ -427,24 +418,20 @@ abstract class LoadMoreComments implements CommentsEvent {
   const factory LoadMoreComments(final String articleId) =
       _$LoadMoreCommentsImpl;
 
-  @override
   String get articleId;
 
   /// Create a copy of CommentsEvent
   /// with the given fields replaced by the non-null parameter values.
-  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LoadMoreCommentsImplCopyWith<_$LoadMoreCommentsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$PostCommentImplCopyWith<$Res>
-    implements $CommentsEventCopyWith<$Res> {
+abstract class _$$PostCommentImplCopyWith<$Res> {
   factory _$$PostCommentImplCopyWith(
           _$PostCommentImpl value, $Res Function(_$PostCommentImpl) then) =
       __$$PostCommentImplCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({String articleId, String content, String? parentId});
 }
@@ -532,6 +519,7 @@ class _$PostCommentImpl implements PostComment {
     required TResult Function(
             String articleId, String content, String? parentId)
         postComment,
+    required TResult Function(String commentId, String content) editComment,
     required TResult Function(String articleId) refreshComments,
   }) {
     return postComment(articleId, content, parentId);
@@ -544,6 +532,7 @@ class _$PostCommentImpl implements PostComment {
     TResult? Function(String articleId)? loadMoreComments,
     TResult? Function(String articleId, String content, String? parentId)?
         postComment,
+    TResult? Function(String commentId, String content)? editComment,
     TResult? Function(String articleId)? refreshComments,
   }) {
     return postComment?.call(articleId, content, parentId);
@@ -556,6 +545,7 @@ class _$PostCommentImpl implements PostComment {
     TResult Function(String articleId)? loadMoreComments,
     TResult Function(String articleId, String content, String? parentId)?
         postComment,
+    TResult Function(String commentId, String content)? editComment,
     TResult Function(String articleId)? refreshComments,
     required TResult orElse(),
   }) {
@@ -571,6 +561,7 @@ class _$PostCommentImpl implements PostComment {
     required TResult Function(LoadComments value) loadComments,
     required TResult Function(LoadMoreComments value) loadMoreComments,
     required TResult Function(PostComment value) postComment,
+    required TResult Function(EditComment value) editComment,
     required TResult Function(RefreshComments value) refreshComments,
   }) {
     return postComment(this);
@@ -582,6 +573,7 @@ class _$PostCommentImpl implements PostComment {
     TResult? Function(LoadComments value)? loadComments,
     TResult? Function(LoadMoreComments value)? loadMoreComments,
     TResult? Function(PostComment value)? postComment,
+    TResult? Function(EditComment value)? editComment,
     TResult? Function(RefreshComments value)? refreshComments,
   }) {
     return postComment?.call(this);
@@ -593,6 +585,7 @@ class _$PostCommentImpl implements PostComment {
     TResult Function(LoadComments value)? loadComments,
     TResult Function(LoadMoreComments value)? loadMoreComments,
     TResult Function(PostComment value)? postComment,
+    TResult Function(EditComment value)? editComment,
     TResult Function(RefreshComments value)? refreshComments,
     required TResult orElse(),
   }) {
@@ -609,26 +602,196 @@ abstract class PostComment implements CommentsEvent {
       required final String content,
       final String? parentId}) = _$PostCommentImpl;
 
-  @override
   String get articleId;
   String get content;
   String? get parentId;
 
   /// Create a copy of CommentsEvent
   /// with the given fields replaced by the non-null parameter values.
-  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PostCommentImplCopyWith<_$PostCommentImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$RefreshCommentsImplCopyWith<$Res>
-    implements $CommentsEventCopyWith<$Res> {
+abstract class _$$EditCommentImplCopyWith<$Res> {
+  factory _$$EditCommentImplCopyWith(
+          _$EditCommentImpl value, $Res Function(_$EditCommentImpl) then) =
+      __$$EditCommentImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String commentId, String content});
+}
+
+/// @nodoc
+class __$$EditCommentImplCopyWithImpl<$Res>
+    extends _$CommentsEventCopyWithImpl<$Res, _$EditCommentImpl>
+    implements _$$EditCommentImplCopyWith<$Res> {
+  __$$EditCommentImplCopyWithImpl(
+      _$EditCommentImpl _value, $Res Function(_$EditCommentImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of CommentsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? commentId = null,
+    Object? content = null,
+  }) {
+    return _then(_$EditCommentImpl(
+      commentId: null == commentId
+          ? _value.commentId
+          : commentId // ignore: cast_nullable_to_non_nullable
+              as String,
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$EditCommentImpl implements EditComment {
+  const _$EditCommentImpl({required this.commentId, required this.content});
+
+  @override
+  final String commentId;
+  @override
+  final String content;
+
+  @override
+  String toString() {
+    return 'CommentsEvent.editComment(commentId: $commentId, content: $content)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$EditCommentImpl &&
+            (identical(other.commentId, commentId) ||
+                other.commentId == commentId) &&
+            (identical(other.content, content) || other.content == content));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, commentId, content);
+
+  /// Create a copy of CommentsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$EditCommentImplCopyWith<_$EditCommentImpl> get copyWith =>
+      __$$EditCommentImplCopyWithImpl<_$EditCommentImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String articleId) loadComments,
+    required TResult Function(String articleId) loadMoreComments,
+    required TResult Function(
+            String articleId, String content, String? parentId)
+        postComment,
+    required TResult Function(String commentId, String content) editComment,
+    required TResult Function(String articleId) refreshComments,
+  }) {
+    return editComment(commentId, content);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String articleId)? loadComments,
+    TResult? Function(String articleId)? loadMoreComments,
+    TResult? Function(String articleId, String content, String? parentId)?
+        postComment,
+    TResult? Function(String commentId, String content)? editComment,
+    TResult? Function(String articleId)? refreshComments,
+  }) {
+    return editComment?.call(commentId, content);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String articleId)? loadComments,
+    TResult Function(String articleId)? loadMoreComments,
+    TResult Function(String articleId, String content, String? parentId)?
+        postComment,
+    TResult Function(String commentId, String content)? editComment,
+    TResult Function(String articleId)? refreshComments,
+    required TResult orElse(),
+  }) {
+    if (editComment != null) {
+      return editComment(commentId, content);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LoadComments value) loadComments,
+    required TResult Function(LoadMoreComments value) loadMoreComments,
+    required TResult Function(PostComment value) postComment,
+    required TResult Function(EditComment value) editComment,
+    required TResult Function(RefreshComments value) refreshComments,
+  }) {
+    return editComment(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LoadComments value)? loadComments,
+    TResult? Function(LoadMoreComments value)? loadMoreComments,
+    TResult? Function(PostComment value)? postComment,
+    TResult? Function(EditComment value)? editComment,
+    TResult? Function(RefreshComments value)? refreshComments,
+  }) {
+    return editComment?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LoadComments value)? loadComments,
+    TResult Function(LoadMoreComments value)? loadMoreComments,
+    TResult Function(PostComment value)? postComment,
+    TResult Function(EditComment value)? editComment,
+    TResult Function(RefreshComments value)? refreshComments,
+    required TResult orElse(),
+  }) {
+    if (editComment != null) {
+      return editComment(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class EditComment implements CommentsEvent {
+  const factory EditComment(
+      {required final String commentId,
+      required final String content}) = _$EditCommentImpl;
+
+  String get commentId;
+  String get content;
+
+  /// Create a copy of CommentsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$EditCommentImplCopyWith<_$EditCommentImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RefreshCommentsImplCopyWith<$Res> {
   factory _$$RefreshCommentsImplCopyWith(_$RefreshCommentsImpl value,
           $Res Function(_$RefreshCommentsImpl) then) =
       __$$RefreshCommentsImplCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({String articleId});
 }
@@ -699,6 +862,7 @@ class _$RefreshCommentsImpl implements RefreshComments {
     required TResult Function(
             String articleId, String content, String? parentId)
         postComment,
+    required TResult Function(String commentId, String content) editComment,
     required TResult Function(String articleId) refreshComments,
   }) {
     return refreshComments(articleId);
@@ -711,6 +875,7 @@ class _$RefreshCommentsImpl implements RefreshComments {
     TResult? Function(String articleId)? loadMoreComments,
     TResult? Function(String articleId, String content, String? parentId)?
         postComment,
+    TResult? Function(String commentId, String content)? editComment,
     TResult? Function(String articleId)? refreshComments,
   }) {
     return refreshComments?.call(articleId);
@@ -723,6 +888,7 @@ class _$RefreshCommentsImpl implements RefreshComments {
     TResult Function(String articleId)? loadMoreComments,
     TResult Function(String articleId, String content, String? parentId)?
         postComment,
+    TResult Function(String commentId, String content)? editComment,
     TResult Function(String articleId)? refreshComments,
     required TResult orElse(),
   }) {
@@ -738,6 +904,7 @@ class _$RefreshCommentsImpl implements RefreshComments {
     required TResult Function(LoadComments value) loadComments,
     required TResult Function(LoadMoreComments value) loadMoreComments,
     required TResult Function(PostComment value) postComment,
+    required TResult Function(EditComment value) editComment,
     required TResult Function(RefreshComments value) refreshComments,
   }) {
     return refreshComments(this);
@@ -749,6 +916,7 @@ class _$RefreshCommentsImpl implements RefreshComments {
     TResult? Function(LoadComments value)? loadComments,
     TResult? Function(LoadMoreComments value)? loadMoreComments,
     TResult? Function(PostComment value)? postComment,
+    TResult? Function(EditComment value)? editComment,
     TResult? Function(RefreshComments value)? refreshComments,
   }) {
     return refreshComments?.call(this);
@@ -760,6 +928,7 @@ class _$RefreshCommentsImpl implements RefreshComments {
     TResult Function(LoadComments value)? loadComments,
     TResult Function(LoadMoreComments value)? loadMoreComments,
     TResult Function(PostComment value)? postComment,
+    TResult Function(EditComment value)? editComment,
     TResult Function(RefreshComments value)? refreshComments,
     required TResult orElse(),
   }) {
@@ -773,12 +942,10 @@ class _$RefreshCommentsImpl implements RefreshComments {
 abstract class RefreshComments implements CommentsEvent {
   const factory RefreshComments(final String articleId) = _$RefreshCommentsImpl;
 
-  @override
   String get articleId;
 
   /// Create a copy of CommentsEvent
   /// with the given fields replaced by the non-null parameter values.
-  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RefreshCommentsImplCopyWith<_$RefreshCommentsImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -796,6 +963,8 @@ mixin _$CommentsState {
     required TResult Function(String message) error,
     required TResult Function() posting,
     required TResult Function(CommentEntity comment) posted,
+    required TResult Function() editing,
+    required TResult Function(CommentEntity comment) edited,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -808,6 +977,8 @@ mixin _$CommentsState {
     TResult? Function(String message)? error,
     TResult? Function()? posting,
     TResult? Function(CommentEntity comment)? posted,
+    TResult? Function()? editing,
+    TResult? Function(CommentEntity comment)? edited,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -820,6 +991,8 @@ mixin _$CommentsState {
     TResult Function(String message)? error,
     TResult Function()? posting,
     TResult Function(CommentEntity comment)? posted,
+    TResult Function()? editing,
+    TResult Function(CommentEntity comment)? edited,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -831,6 +1004,8 @@ mixin _$CommentsState {
     required TResult Function(_Error value) error,
     required TResult Function(_Posting value) posting,
     required TResult Function(_Posted value) posted,
+    required TResult Function(_Editing value) editing,
+    required TResult Function(_Edited value) edited,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -841,6 +1016,8 @@ mixin _$CommentsState {
     TResult? Function(_Error value)? error,
     TResult? Function(_Posting value)? posting,
     TResult? Function(_Posted value)? posted,
+    TResult? Function(_Editing value)? editing,
+    TResult? Function(_Edited value)? edited,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -851,6 +1028,8 @@ mixin _$CommentsState {
     TResult Function(_Error value)? error,
     TResult Function(_Posting value)? posting,
     TResult Function(_Posted value)? posted,
+    TResult Function(_Editing value)? editing,
+    TResult Function(_Edited value)? edited,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -926,6 +1105,8 @@ class _$InitialImpl implements _Initial {
     required TResult Function(String message) error,
     required TResult Function() posting,
     required TResult Function(CommentEntity comment) posted,
+    required TResult Function() editing,
+    required TResult Function(CommentEntity comment) edited,
   }) {
     return initial();
   }
@@ -941,6 +1122,8 @@ class _$InitialImpl implements _Initial {
     TResult? Function(String message)? error,
     TResult? Function()? posting,
     TResult? Function(CommentEntity comment)? posted,
+    TResult? Function()? editing,
+    TResult? Function(CommentEntity comment)? edited,
   }) {
     return initial?.call();
   }
@@ -956,6 +1139,8 @@ class _$InitialImpl implements _Initial {
     TResult Function(String message)? error,
     TResult Function()? posting,
     TResult Function(CommentEntity comment)? posted,
+    TResult Function()? editing,
+    TResult Function(CommentEntity comment)? edited,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -973,6 +1158,8 @@ class _$InitialImpl implements _Initial {
     required TResult Function(_Error value) error,
     required TResult Function(_Posting value) posting,
     required TResult Function(_Posted value) posted,
+    required TResult Function(_Editing value) editing,
+    required TResult Function(_Edited value) edited,
   }) {
     return initial(this);
   }
@@ -986,6 +1173,8 @@ class _$InitialImpl implements _Initial {
     TResult? Function(_Error value)? error,
     TResult? Function(_Posting value)? posting,
     TResult? Function(_Posted value)? posted,
+    TResult? Function(_Editing value)? editing,
+    TResult? Function(_Edited value)? edited,
   }) {
     return initial?.call(this);
   }
@@ -999,6 +1188,8 @@ class _$InitialImpl implements _Initial {
     TResult Function(_Error value)? error,
     TResult Function(_Posting value)? posting,
     TResult Function(_Posted value)? posted,
+    TResult Function(_Editing value)? editing,
+    TResult Function(_Edited value)? edited,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -1061,6 +1252,8 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(String message) error,
     required TResult Function() posting,
     required TResult Function(CommentEntity comment) posted,
+    required TResult Function() editing,
+    required TResult Function(CommentEntity comment) edited,
   }) {
     return loading();
   }
@@ -1076,6 +1269,8 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(String message)? error,
     TResult? Function()? posting,
     TResult? Function(CommentEntity comment)? posted,
+    TResult? Function()? editing,
+    TResult? Function(CommentEntity comment)? edited,
   }) {
     return loading?.call();
   }
@@ -1091,6 +1286,8 @@ class _$LoadingImpl implements _Loading {
     TResult Function(String message)? error,
     TResult Function()? posting,
     TResult Function(CommentEntity comment)? posted,
+    TResult Function()? editing,
+    TResult Function(CommentEntity comment)? edited,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -1108,6 +1305,8 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(_Error value) error,
     required TResult Function(_Posting value) posting,
     required TResult Function(_Posted value) posted,
+    required TResult Function(_Editing value) editing,
+    required TResult Function(_Edited value) edited,
   }) {
     return loading(this);
   }
@@ -1121,6 +1320,8 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(_Error value)? error,
     TResult? Function(_Posting value)? posting,
     TResult? Function(_Posted value)? posted,
+    TResult? Function(_Editing value)? editing,
+    TResult? Function(_Edited value)? edited,
   }) {
     return loading?.call(this);
   }
@@ -1134,6 +1335,8 @@ class _$LoadingImpl implements _Loading {
     TResult Function(_Error value)? error,
     TResult Function(_Posting value)? posting,
     TResult Function(_Posted value)? posted,
+    TResult Function(_Editing value)? editing,
+    TResult Function(_Edited value)? edited,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -1251,6 +1454,8 @@ class _$LoadedImpl implements _Loaded {
     required TResult Function(String message) error,
     required TResult Function() posting,
     required TResult Function(CommentEntity comment) posted,
+    required TResult Function() editing,
+    required TResult Function(CommentEntity comment) edited,
   }) {
     return loaded(comments, hasMore, currentPage);
   }
@@ -1266,6 +1471,8 @@ class _$LoadedImpl implements _Loaded {
     TResult? Function(String message)? error,
     TResult? Function()? posting,
     TResult? Function(CommentEntity comment)? posted,
+    TResult? Function()? editing,
+    TResult? Function(CommentEntity comment)? edited,
   }) {
     return loaded?.call(comments, hasMore, currentPage);
   }
@@ -1281,6 +1488,8 @@ class _$LoadedImpl implements _Loaded {
     TResult Function(String message)? error,
     TResult Function()? posting,
     TResult Function(CommentEntity comment)? posted,
+    TResult Function()? editing,
+    TResult Function(CommentEntity comment)? edited,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -1298,6 +1507,8 @@ class _$LoadedImpl implements _Loaded {
     required TResult Function(_Error value) error,
     required TResult Function(_Posting value) posting,
     required TResult Function(_Posted value) posted,
+    required TResult Function(_Editing value) editing,
+    required TResult Function(_Edited value) edited,
   }) {
     return loaded(this);
   }
@@ -1311,6 +1522,8 @@ class _$LoadedImpl implements _Loaded {
     TResult? Function(_Error value)? error,
     TResult? Function(_Posting value)? posting,
     TResult? Function(_Posted value)? posted,
+    TResult? Function(_Editing value)? editing,
+    TResult? Function(_Edited value)? edited,
   }) {
     return loaded?.call(this);
   }
@@ -1324,6 +1537,8 @@ class _$LoadedImpl implements _Loaded {
     TResult Function(_Error value)? error,
     TResult Function(_Posting value)? posting,
     TResult Function(_Posted value)? posted,
+    TResult Function(_Editing value)? editing,
+    TResult Function(_Edited value)? edited,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -1426,6 +1641,8 @@ class _$ErrorImpl implements _Error {
     required TResult Function(String message) error,
     required TResult Function() posting,
     required TResult Function(CommentEntity comment) posted,
+    required TResult Function() editing,
+    required TResult Function(CommentEntity comment) edited,
   }) {
     return error(message);
   }
@@ -1441,6 +1658,8 @@ class _$ErrorImpl implements _Error {
     TResult? Function(String message)? error,
     TResult? Function()? posting,
     TResult? Function(CommentEntity comment)? posted,
+    TResult? Function()? editing,
+    TResult? Function(CommentEntity comment)? edited,
   }) {
     return error?.call(message);
   }
@@ -1456,6 +1675,8 @@ class _$ErrorImpl implements _Error {
     TResult Function(String message)? error,
     TResult Function()? posting,
     TResult Function(CommentEntity comment)? posted,
+    TResult Function()? editing,
+    TResult Function(CommentEntity comment)? edited,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -1473,6 +1694,8 @@ class _$ErrorImpl implements _Error {
     required TResult Function(_Error value) error,
     required TResult Function(_Posting value) posting,
     required TResult Function(_Posted value) posted,
+    required TResult Function(_Editing value) editing,
+    required TResult Function(_Edited value) edited,
   }) {
     return error(this);
   }
@@ -1486,6 +1709,8 @@ class _$ErrorImpl implements _Error {
     TResult? Function(_Error value)? error,
     TResult? Function(_Posting value)? posting,
     TResult? Function(_Posted value)? posted,
+    TResult? Function(_Editing value)? editing,
+    TResult? Function(_Edited value)? edited,
   }) {
     return error?.call(this);
   }
@@ -1499,6 +1724,8 @@ class _$ErrorImpl implements _Error {
     TResult Function(_Error value)? error,
     TResult Function(_Posting value)? posting,
     TResult Function(_Posted value)? posted,
+    TResult Function(_Editing value)? editing,
+    TResult Function(_Edited value)? edited,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -1569,6 +1796,8 @@ class _$PostingImpl implements _Posting {
     required TResult Function(String message) error,
     required TResult Function() posting,
     required TResult Function(CommentEntity comment) posted,
+    required TResult Function() editing,
+    required TResult Function(CommentEntity comment) edited,
   }) {
     return posting();
   }
@@ -1584,6 +1813,8 @@ class _$PostingImpl implements _Posting {
     TResult? Function(String message)? error,
     TResult? Function()? posting,
     TResult? Function(CommentEntity comment)? posted,
+    TResult? Function()? editing,
+    TResult? Function(CommentEntity comment)? edited,
   }) {
     return posting?.call();
   }
@@ -1599,6 +1830,8 @@ class _$PostingImpl implements _Posting {
     TResult Function(String message)? error,
     TResult Function()? posting,
     TResult Function(CommentEntity comment)? posted,
+    TResult Function()? editing,
+    TResult Function(CommentEntity comment)? edited,
     required TResult orElse(),
   }) {
     if (posting != null) {
@@ -1616,6 +1849,8 @@ class _$PostingImpl implements _Posting {
     required TResult Function(_Error value) error,
     required TResult Function(_Posting value) posting,
     required TResult Function(_Posted value) posted,
+    required TResult Function(_Editing value) editing,
+    required TResult Function(_Edited value) edited,
   }) {
     return posting(this);
   }
@@ -1629,6 +1864,8 @@ class _$PostingImpl implements _Posting {
     TResult? Function(_Error value)? error,
     TResult? Function(_Posting value)? posting,
     TResult? Function(_Posted value)? posted,
+    TResult? Function(_Editing value)? editing,
+    TResult? Function(_Edited value)? edited,
   }) {
     return posting?.call(this);
   }
@@ -1642,6 +1879,8 @@ class _$PostingImpl implements _Posting {
     TResult Function(_Error value)? error,
     TResult Function(_Posting value)? posting,
     TResult Function(_Posted value)? posted,
+    TResult Function(_Editing value)? editing,
+    TResult Function(_Edited value)? edited,
     required TResult orElse(),
   }) {
     if (posting != null) {
@@ -1731,6 +1970,8 @@ class _$PostedImpl implements _Posted {
     required TResult Function(String message) error,
     required TResult Function() posting,
     required TResult Function(CommentEntity comment) posted,
+    required TResult Function() editing,
+    required TResult Function(CommentEntity comment) edited,
   }) {
     return posted(comment);
   }
@@ -1746,6 +1987,8 @@ class _$PostedImpl implements _Posted {
     TResult? Function(String message)? error,
     TResult? Function()? posting,
     TResult? Function(CommentEntity comment)? posted,
+    TResult? Function()? editing,
+    TResult? Function(CommentEntity comment)? edited,
   }) {
     return posted?.call(comment);
   }
@@ -1761,6 +2004,8 @@ class _$PostedImpl implements _Posted {
     TResult Function(String message)? error,
     TResult Function()? posting,
     TResult Function(CommentEntity comment)? posted,
+    TResult Function()? editing,
+    TResult Function(CommentEntity comment)? edited,
     required TResult orElse(),
   }) {
     if (posted != null) {
@@ -1778,6 +2023,8 @@ class _$PostedImpl implements _Posted {
     required TResult Function(_Error value) error,
     required TResult Function(_Posting value) posting,
     required TResult Function(_Posted value) posted,
+    required TResult Function(_Editing value) editing,
+    required TResult Function(_Edited value) edited,
   }) {
     return posted(this);
   }
@@ -1791,6 +2038,8 @@ class _$PostedImpl implements _Posted {
     TResult? Function(_Error value)? error,
     TResult? Function(_Posting value)? posting,
     TResult? Function(_Posted value)? posted,
+    TResult? Function(_Editing value)? editing,
+    TResult? Function(_Edited value)? edited,
   }) {
     return posted?.call(this);
   }
@@ -1804,6 +2053,8 @@ class _$PostedImpl implements _Posted {
     TResult Function(_Error value)? error,
     TResult Function(_Posting value)? posting,
     TResult Function(_Posted value)? posted,
+    TResult Function(_Editing value)? editing,
+    TResult Function(_Edited value)? edited,
     required TResult orElse(),
   }) {
     if (posted != null) {
@@ -1822,5 +2073,334 @@ abstract class _Posted implements CommentsState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PostedImplCopyWith<_$PostedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$EditingImplCopyWith<$Res> {
+  factory _$$EditingImplCopyWith(
+          _$EditingImpl value, $Res Function(_$EditingImpl) then) =
+      __$$EditingImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$EditingImplCopyWithImpl<$Res>
+    extends _$CommentsStateCopyWithImpl<$Res, _$EditingImpl>
+    implements _$$EditingImplCopyWith<$Res> {
+  __$$EditingImplCopyWithImpl(
+      _$EditingImpl _value, $Res Function(_$EditingImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of CommentsState
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$EditingImpl implements _Editing {
+  const _$EditingImpl();
+
+  @override
+  String toString() {
+    return 'CommentsState.editing()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$EditingImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(
+            List<CommentEntity> comments, bool hasMore, int currentPage)
+        loaded,
+    required TResult Function(String message) error,
+    required TResult Function() posting,
+    required TResult Function(CommentEntity comment) posted,
+    required TResult Function() editing,
+    required TResult Function(CommentEntity comment) edited,
+  }) {
+    return editing();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(
+            List<CommentEntity> comments, bool hasMore, int currentPage)?
+        loaded,
+    TResult? Function(String message)? error,
+    TResult? Function()? posting,
+    TResult? Function(CommentEntity comment)? posted,
+    TResult? Function()? editing,
+    TResult? Function(CommentEntity comment)? edited,
+  }) {
+    return editing?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(
+            List<CommentEntity> comments, bool hasMore, int currentPage)?
+        loaded,
+    TResult Function(String message)? error,
+    TResult Function()? posting,
+    TResult Function(CommentEntity comment)? posted,
+    TResult Function()? editing,
+    TResult Function(CommentEntity comment)? edited,
+    required TResult orElse(),
+  }) {
+    if (editing != null) {
+      return editing();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Loaded value) loaded,
+    required TResult Function(_Error value) error,
+    required TResult Function(_Posting value) posting,
+    required TResult Function(_Posted value) posted,
+    required TResult Function(_Editing value) editing,
+    required TResult Function(_Edited value) edited,
+  }) {
+    return editing(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Loaded value)? loaded,
+    TResult? Function(_Error value)? error,
+    TResult? Function(_Posting value)? posting,
+    TResult? Function(_Posted value)? posted,
+    TResult? Function(_Editing value)? editing,
+    TResult? Function(_Edited value)? edited,
+  }) {
+    return editing?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Loaded value)? loaded,
+    TResult Function(_Error value)? error,
+    TResult Function(_Posting value)? posting,
+    TResult Function(_Posted value)? posted,
+    TResult Function(_Editing value)? editing,
+    TResult Function(_Edited value)? edited,
+    required TResult orElse(),
+  }) {
+    if (editing != null) {
+      return editing(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Editing implements CommentsState {
+  const factory _Editing() = _$EditingImpl;
+}
+
+/// @nodoc
+abstract class _$$EditedImplCopyWith<$Res> {
+  factory _$$EditedImplCopyWith(
+          _$EditedImpl value, $Res Function(_$EditedImpl) then) =
+      __$$EditedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({CommentEntity comment});
+}
+
+/// @nodoc
+class __$$EditedImplCopyWithImpl<$Res>
+    extends _$CommentsStateCopyWithImpl<$Res, _$EditedImpl>
+    implements _$$EditedImplCopyWith<$Res> {
+  __$$EditedImplCopyWithImpl(
+      _$EditedImpl _value, $Res Function(_$EditedImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of CommentsState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? comment = null,
+  }) {
+    return _then(_$EditedImpl(
+      null == comment
+          ? _value.comment
+          : comment // ignore: cast_nullable_to_non_nullable
+              as CommentEntity,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$EditedImpl implements _Edited {
+  const _$EditedImpl(this.comment);
+
+  @override
+  final CommentEntity comment;
+
+  @override
+  String toString() {
+    return 'CommentsState.edited(comment: $comment)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$EditedImpl &&
+            (identical(other.comment, comment) || other.comment == comment));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, comment);
+
+  /// Create a copy of CommentsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$EditedImplCopyWith<_$EditedImpl> get copyWith =>
+      __$$EditedImplCopyWithImpl<_$EditedImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(
+            List<CommentEntity> comments, bool hasMore, int currentPage)
+        loaded,
+    required TResult Function(String message) error,
+    required TResult Function() posting,
+    required TResult Function(CommentEntity comment) posted,
+    required TResult Function() editing,
+    required TResult Function(CommentEntity comment) edited,
+  }) {
+    return edited(comment);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(
+            List<CommentEntity> comments, bool hasMore, int currentPage)?
+        loaded,
+    TResult? Function(String message)? error,
+    TResult? Function()? posting,
+    TResult? Function(CommentEntity comment)? posted,
+    TResult? Function()? editing,
+    TResult? Function(CommentEntity comment)? edited,
+  }) {
+    return edited?.call(comment);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(
+            List<CommentEntity> comments, bool hasMore, int currentPage)?
+        loaded,
+    TResult Function(String message)? error,
+    TResult Function()? posting,
+    TResult Function(CommentEntity comment)? posted,
+    TResult Function()? editing,
+    TResult Function(CommentEntity comment)? edited,
+    required TResult orElse(),
+  }) {
+    if (edited != null) {
+      return edited(comment);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Loaded value) loaded,
+    required TResult Function(_Error value) error,
+    required TResult Function(_Posting value) posting,
+    required TResult Function(_Posted value) posted,
+    required TResult Function(_Editing value) editing,
+    required TResult Function(_Edited value) edited,
+  }) {
+    return edited(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Loaded value)? loaded,
+    TResult? Function(_Error value)? error,
+    TResult? Function(_Posting value)? posting,
+    TResult? Function(_Posted value)? posted,
+    TResult? Function(_Editing value)? editing,
+    TResult? Function(_Edited value)? edited,
+  }) {
+    return edited?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Loaded value)? loaded,
+    TResult Function(_Error value)? error,
+    TResult Function(_Posting value)? posting,
+    TResult Function(_Posted value)? posted,
+    TResult Function(_Editing value)? editing,
+    TResult Function(_Edited value)? edited,
+    required TResult orElse(),
+  }) {
+    if (edited != null) {
+      return edited(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Edited implements CommentsState {
+  const factory _Edited(final CommentEntity comment) = _$EditedImpl;
+
+  CommentEntity get comment;
+
+  /// Create a copy of CommentsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$EditedImplCopyWith<_$EditedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

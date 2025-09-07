@@ -48,7 +48,7 @@ CustomTransitionPage<void> buildPageWithDefaultTransition<T>({
 
 final GoRouter appRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: '/login',
+  initialLocation: '/main',
   errorBuilder: (context, state) => Scaffold(
     body: Center(
       child: Column(

@@ -9,6 +9,10 @@ abstract class CommentsRemoteDataSource {
     required String content,
     String? parentId,
   });
+  Future<CommentModel> editComment({
+    required String commentId,
+    required String content,
+  });
 }
 
 class CommentsRemoteDataSourceImpl implements CommentsRemoteDataSource {
@@ -53,13 +57,38 @@ class CommentsRemoteDataSourceImpl implements CommentsRemoteDataSource {
       if (parentId != null) 'parent': parentId,
     };
 
+    // Use different endpoints for replies vs regular comments
+    final endpoint = parentId != null 
+        ? '/comments/$parentId/replies/'
+        : '/articles/$articleId/comment/';
+
     final result = await _networkService.post(
-      '/articles/$articleId/comment/',
+      endpoint,
       data: data,
     );
 
     return result.fold(
       (exception) => throw Exception('Failed to post comment: ${exception.message}'),
+      (response) => CommentModel.fromJson(response.data),
+    );
+  }
+
+  @override
+  Future<CommentModel> editComment({
+    required String commentId,
+    required String content,
+  }) async {
+    final data = {
+      'content': content,
+    };
+
+    final result = await _networkService.put(
+      '/articles/comments/$commentId/edit/',
+      data: data,
+    );
+
+    return result.fold(
+      (exception) => throw Exception('Failed to edit comment: ${exception.message}'),
       (response) => CommentModel.fromJson(response.data),
     );
   }
